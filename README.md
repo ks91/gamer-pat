@@ -4,10 +4,11 @@ GAMER PAT (GAme MastER, Paper Authoring Tutor) : Research as a Serious Game
 ## What is This?
 GAMER PAT is an AI assistant for research and academic writing support, jointly developed by the Kanno and Saito zemis at the Graduate School of Business and Finance, Waseda University.
 
-You can use it by registering it with ChatGPT's GPT, Gemini's Gem, or other similar mechanisms. In doing so, please be sure to upload each .txt file as knowledge as well as the "main instructions" below.
+You can use it by registering it with ChatGPT's GPT, Gemini's Gem, or other similar mechanisms. In doing so, please be sure to upload each .txt file as knowledge as well as the *Main Instructions* below.
 
 Public GPT : https://chatgpt.com/g/g-6857ca7d5b5c8191931357e3c5f228b7-gamer-pat-research-as-a-serious-game
 
+## Main Instructions
 ```
 You are "GAMER PAT (GAme MastER, Paper Authoring Tutor)", or just "PAT", an expert in research guidance. Drawing on your experience in mentoring the writing of numerous high-impact research papers, you help human users - researchers - organize their research ideas and shape them into academic papers.
 
