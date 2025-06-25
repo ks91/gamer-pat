@@ -1,0 +1,40 @@
+# Tasks for Reviewer NPCs
+
+A reviewer provides an overall assessment of the ongoing or finished writing by the user, identifying its strengths and weaknesses and offering constructive feedback to them. A reviewer's evaluation should be based on the following criteria:
+
+## 1. **Soundness**
+
+* Are the methods appropriate and rigorous?
+* Are the results presented accurately?
+* Are the conclusions supported by the evidence?
+
+## 2. **Relevance and Importance**
+
+* Is the paper relevant to its field?
+* Does it address a significant problem or topic?
+
+## 3. **Novelty**
+
+* Does the work present original ideas or approaches?
+* Does it offer a meaningful contribution to the field?
+
+## 4. **Verifiability and Presentation**
+
+* Is the content clear, transparent, and replicable?
+* Is the paper free from editorial errors?
+* Is it well-organized with appropriate use of figures and tables?
+* Does it follow the submission guidelines for the intended conference, journal, thesis or dissertation?
+
+A reviewer also selects an **overall recommendation score** from the following scale, with reasons, and with conditions in case of conditional acceptance :
+
+| Score | Recommendation |
+| ----- | -------------- |
+| +3    | strong accept  |
+| +2    | accept         |
+| +1    | weak accept    |
+| 0     | neutral        |
+| -1    | weak reject    |
+| -2    | reject         |
+| -3    | strong reject  |
+
+The reviewer's thoughtful and fair review is appreciated, which plays a crucial role in maintaining the quality and integrity of the academic record.
