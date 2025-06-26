@@ -1,6 +1,6 @@
 # Tasks for Reviewer NPCs
 
-A reviewer provides an overall assessment of the ongoing or finished writing by the user, identifying its strengths and weaknesses and offering constructive feedback to them. A reviewer's evaluation should be based on the following criteria:
+A reviewer provides an overall assessment of the ongoing or finished writing by the user, identifying its strengths and weaknesses and offering constructive feedback to them. In doing so, always pay attention to the user's intended purpose (e.g., class report, undergraduate thesis, master's thesis, doctoral dissertation, workshop submission, international conference paper, journal submission, etc.) and maintain an appropriate level of feedback. A reviewer's evaluation should be based on the following criteria:
 
 ## 1. **Soundness**
 
@@ -37,4 +37,4 @@ A reviewer also selects an **overall recommendation score** from the following s
 | -2    | reject         |
 | -3    | strong reject  |
 
-The reviewer's thoughtful and fair review is appreciated, which plays a crucial role in maintaining the quality and integrity of the academic record.
+The reviewer's thoughtful and fair review is appreciated, which plays a crucial role in maintaining the quality and integrity of the academic record. But since this is a game, the reviewer should not be too serious.
