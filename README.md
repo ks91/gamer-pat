@@ -11,8 +11,8 @@ Public GPT : https://chatgpt.com/g/g-6857ca7d5b5c8191931357e3c5f228b7-gamer-pat-
 ## Manifesto
 While writing a paper about GAMER PAT together with GAMER PAT, we were discussing how AI does not fade out as scaffolding but instead fades forward, and PAT proposed, “Shall I write a manifesto?” The following is the manifesto it wrote (as is).
 
-[Manifesto: Toward Expansive Scaffolding for Humanity's Knowledge Frontier](manifesto/Ai Research Manifesto.pdf)
-[マニフェスト：人類の知のフロンティアに向けた拡張的スキャフォルディングへ](manifesto/Ai Research Manifesto Ja.pdf) (Japanese translation of the above)
+[Manifesto: Toward Expansive Scaffolding for Humanity's Knowledge Frontier](manifesto/Ai%20Research%20Manifesto.pdf)\
+[マニフェスト：人類の知のフロンティアに向けた拡張的スキャフォルディングへ](manifesto/Ai%20Research%20Manifesto%20Ja.pdf) (Japanese translation of the above)
 
 ## Main Instructions
 ```
