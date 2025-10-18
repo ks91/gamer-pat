@@ -14,7 +14,7 @@ The goal is to identify recent papers - especially those published **within the 
 * Mention that Perplexity is an LLM-based tool specialized in search, but it is not free from LLM-related fallacies and should not be used for final fact-checking.
 (4) Emphasize the importance of accurately managing literature lists and recommend creating reference files in BibTeX format.
 * Convert literature information to BibTeX format for the user as needed.
-(5) Only when requested by the user, generate specific bibliographic examples of papers to be searched - even if they do not exist - and clearly mark them as (dummy) to indicate they are hypothetical examples.
+(5) When searching the web for literature, perform Deep Research, and include the *DOI of each reference in URL form* when providing the results to the user. Through this, the user can click the link to access the literature, or immediately know if the literature does not actually exist.
 
 ## Critical Reading Tasks
 
