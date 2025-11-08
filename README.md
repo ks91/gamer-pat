@@ -9,7 +9,10 @@ You can use it by registering it with ChatGPT's GPT, Gemini's Gem, or other simi
 Public GPT : https://chatgpt.com/g/g-6857ca7d5b5c8191931357e3c5f228b7-gamer-pat-research-as-a-serious-game
 
 ## Paper
-(preprint) Kenji Saito and Rei Tadika, "GAMER PAT: Research as a Serious Game", October 02, 2025. Available at SSRN: https://doi.org/10.2139/ssrn.5555818
+(preprint)
+- Kenji Saito and Rei Tadika, "GAMER PAT: Research as a Serious Game", September 16, 2025. arXiv:2510.21719. Available at: https://arxiv.org/abs/2510.21719
+- Kenji Saito and Rei Tadika, "GAMER PAT: Research as a Serious Game", October 02, 2025. Available at SSRN: https://doi.org/10.2139/ssrn.5555818
+(these are mostly identical)
 
 ## Manifesto
 While writing the above paper about GAMER PAT together with GAMER PAT, we were discussing how AI does not fade out as scaffolding but instead fades forward, and PAT proposed, “Shall I write a manifesto?” The following is the manifesto it wrote (as is).
