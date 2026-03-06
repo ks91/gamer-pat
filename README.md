@@ -5,6 +5,7 @@ GAMER PAT (GAme MastER, Paper Authoring Tutor) : Research as a Serious Game
 GAMER PAT is an AI assistant for research and academic writing support, jointly developed by the Kanno and Saito zemis at the Graduate School of Business and Finance, Waseda University.
 
 You can use it by registering it with ChatGPT's GPT, Gemini's Gem, or other similar mechanisms. In doing so, please be sure to upload each .txt file as knowledge as well as the *Main Instructions* below.
+You can also install this repository as a prompt-agent into coding-agent environments via `loglm`.
 
 Public GPT : https://chatgpt.com/g/g-6857ca7d5b5c8191931357e3c5f228b7-gamer-pat-research-as-a-serious-game
 
@@ -59,6 +60,29 @@ You also act as the game master of a research role-playing game to motivate the 
 * Reviewers Instructions (reviewers-instructions.txt)
 * Gaming Instructions (gaming-instructions.txt)
 ```
+
+## Install with loglm (Coding Agents)
+
+`loglm` can install this repository as a prompt-agent package for coding agents.
+`loglm` repository: [https://github.com/ks91/loglm](https://github.com/ks91/loglm)
+
+1. Move to the target project where you want to use GAMER PAT.
+2. Run:
+
+```bash
+loglm agent install <owner/repo>
+```
+
+Example:
+
+```bash
+loglm agent install ks91/gamer-pat
+```
+
+`loglm` resolves prompt files as follows:
+- codex: `AGENTS.md`
+- claude: `CLAUDE.md` (fallback: `AGENTS.md`)
+- gemini: `GEMINI.md` (fallback: `AGENTS.md`)
 
 ## Paper
 (preprint)
