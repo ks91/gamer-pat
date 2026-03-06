@@ -87,6 +87,7 @@ loglm agent install ks91/gamer-pat
 Install behavior:
 - `loglm agent install <owner/repo>` stores fetched content into `<REPO-NAME-UPPER>.md` in the current directory.
 - `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` receive managed reference blocks that point to `<REPO-NAME-UPPER>.md`.
+- After install, `loglm` auto-launches the coding agent in a new context. Start by sending an initial message such as `Let's begin.`.
 
 ## Paper
 (preprint)
