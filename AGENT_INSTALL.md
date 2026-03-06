@@ -17,12 +17,12 @@
 
 - name: PDF viewer
   purpose: Review generated PDFs quickly during writing/revision loops.
-  check: macOS/Lima `command -v skim`; Windows `where SumatraPDF`; Ubuntu `command -v zathura || command -v okular`
+  check: macOS/Lima `test -d /Applications/Skim.app`; Windows `where SumatraPDF`; Ubuntu `command -v zathura || command -v okular`
   install:
   macOS (including Lima host): `brew install --cask skim`
   Windows: `winget install SumatraPDF.SumatraPDF`
   Ubuntu Desktop: `sudo apt update && sudo apt install -y zathura` or `sudo apt update && sudo apt install -y okular`
-  verify: macOS/Lima `skim -v`; Windows `SumatraPDF -help`; Ubuntu `zathura --version` or `okular --version`
+  verify: macOS/Lima `test -d /Applications/Skim.app`; Windows `SumatraPDF -help`; Ubuntu `zathura --version` or `okular --version`
 
 - name: Python 3
   purpose: Run helper scripts for data processing and reproducible research tasks.
