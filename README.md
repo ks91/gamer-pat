@@ -80,9 +80,13 @@ loglm agent install ks91/gamer-pat
 ```
 
 `loglm` resolves prompt files as follows:
-- codex: `AGENTS.md`
-- claude: `CLAUDE.md` (fallback: `AGENTS.md`)
-- gemini: `GEMINI.md` (fallback: `AGENTS.md`)
+- codex: [`AGENT_INSTALL.md`](AGENT_INSTALL.md) -> `AGENTS.md`
+- claude: `AGENT_INSTALL.md` -> `CLAUDE.md` -> `AGENTS.md`
+- gemini: `AGENT_INSTALL.md` -> `GEMINI.md` -> `AGENTS.md`
+
+Install behavior:
+- `loglm agent install <owner/repo>` stores fetched content into `<REPO-NAME-UPPER>.md` in the current directory.
+- `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` receive managed reference blocks that point to `<REPO-NAME-UPPER>.md`.
 
 ## Paper
 (preprint)
