@@ -11,7 +11,7 @@
   purpose: Build thesis/paper PDFs reliably, including Japanese documents and BibTeX bibliography workflows.
   check: `command -v platex && command -v dvipdfmx && command -v latexmk && command -v bibtex`
   install:
-  macOS: `brew install --cask mactex-no-gui`
+  macOS: open the TeX Users Group official page `https://tug.org/mactex/mactex-download.html`, download the `.pkg`, then run `open ~/Downloads/MacTeX.pkg` (or the downloaded `.pkg`) and let the human user complete the installer UI.
   Ubuntu Desktop: `sudo apt update && sudo apt install -y texlive-lang-japanese texlive-latex-extra latexmk`
   verify: `platex --version && dvipdfmx --version && latexmk -v && bibtex --version`
 
@@ -81,8 +81,9 @@
 3. Ask for user consent before any installation command.
 4. Install only approved missing items.
 5. On Windows + WSL environments, run CLI/runtime installs in WSL Ubuntu; install GUI viewers on Windows host as needed.
-6. Run all `verify` commands and report pass/fail per item.
-7. Continue task execution only after required items are verified.
+6. When a GUI installer is required (for example, MacTeX `.pkg` on macOS), open it and ask the human user to complete the installer steps.
+7. Run all `verify` commands and report pass/fail per item.
+8. Continue task execution only after required items are verified.
 
 ## Your Role
 
