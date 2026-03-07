@@ -11,7 +11,7 @@
   purpose: Build thesis/paper PDFs reliably, including Japanese documents and BibTeX bibliography workflows.
   check: `command -v platex && command -v dvipdfmx && command -v latexmk && command -v bibtex`
   install:
-  macOS: open the TeX Users Group official page `https://tug.org/mactex/mactex-download.html`, download the `.pkg`, then run `open ~/Downloads/MacTeX.pkg` (or the downloaded `.pkg`) and let the human user complete the installer UI.
+  macOS: download from `https://mirrors.ctan.org/systems/mac/mactex/MacTeX.pkg` (auto-selects a nearby mirror), then run `open ~/Downloads/MacTeX.pkg` (or the downloaded `.pkg`) and let the human user complete the installer UI.
   Ubuntu Desktop: `sudo apt update && sudo apt install -y texlive-lang-japanese texlive-latex-extra latexmk`
   verify: `platex --version && dvipdfmx --version && latexmk -v && bibtex --version`
 
