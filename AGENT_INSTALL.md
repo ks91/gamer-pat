@@ -17,12 +17,12 @@
 
 - name: PDF viewer
   purpose: Review generated PDFs quickly during writing/revision loops.
-  check: macOS/Lima `test -d /Applications/Skim.app`; Windows `where SumatraPDF`; Ubuntu `command -v zathura || command -v okular`
+  check: macOS host `test -d /Applications/Skim.app`; Windows host `where SumatraPDF`; Ubuntu Desktop `command -v zathura || command -v okular`
   install:
-  macOS (including Lima host): `brew install --cask skim`
-  Windows: `winget install SumatraPDF.SumatraPDF`
-  Ubuntu Desktop: `sudo apt update && sudo apt install -y zathura` or `sudo apt update && sudo apt install -y okular`
-  verify: macOS/Lima `test -d /Applications/Skim.app`; Windows `SumatraPDF -help`; Ubuntu `zathura --version` or `okular --version`
+  macOS host (including Lima usage): `brew install --cask skim`
+  Windows host (including WSL usage): `winget install SumatraPDF.SumatraPDF`
+  Ubuntu Desktop only: `sudo apt update && sudo apt install -y zathura` or `sudo apt update && sudo apt install -y okular`
+  verify: macOS host `test -d /Applications/Skim.app`; Windows host `SumatraPDF -help`; Ubuntu Desktop `zathura --version` or `okular --version`
 
 - name: Python 3
   purpose: Run helper scripts for data processing and reproducible research tasks.
@@ -61,8 +61,9 @@
 ## Platform Integrations
 
 - macOS / Lima:
-  Use `skim` as the default PDF viewer.
-  Open PDF with `open -a Skim <pdf-path>`.
+  In Lima guest, do not install Linux GUI viewers for this workflow.
+  Use `skim` on macOS host as the default PDF viewer.
+  Open PDF with `open -a Skim <pdf-path>` from macOS host.
 
 - Windows / WSL:
   Treat the runtime as WSL2 Ubuntu for CLI tools and package installation.
@@ -74,17 +75,29 @@
   Use `zathura` or `okular` as the default PDF viewer.
   Open PDF with `zathura <pdf-path>` or `okular <pdf-path>`.
 
+- Raspberry Pi OS (provisional; not yet tested):
+  Use the same Linux-side CLI flow as Ubuntu Desktop.
+  Prefer `zathura` or `okular` for PDF viewing when available.
+
+- Chrome OS (Linux container / Crostini) (provisional; not yet tested):
+  Run CLI/runtime tools inside the Linux container.
+  Prefer opening generated PDFs with the host-side Chrome OS viewer/browser.
+
 ## Preflight
 
-1. Check all items in `Requirements`.
-2. Report missing items with exact check-command failures.
-3. Ask for user consent before any installation command.
-4. For any command requiring `sudo`, provide copy-paste commands and ask the human user to run them in a separate terminal window.
-5. Install only approved missing items.
-6. On Windows + WSL environments, run CLI/runtime installs in WSL Ubuntu; install GUI viewers on Windows host as needed.
-7. When a GUI installer is required (for example, MacTeX `.pkg` on macOS), open it and ask the human user to complete the installer steps.
-8. Run all `verify` commands and report pass/fail per item.
-9. Continue task execution only after required items are verified.
+1. Detect environment first: macOS host, Windows host, WSL Ubuntu, Lima guest on macOS, Ubuntu Desktop, Raspberry Pi OS, or Chrome OS (Linux container / Crostini).
+2. Check all items in `Requirements`.
+3. Report missing items with exact check-command failures.
+4. Ask for user consent before any installation command.
+5. For any command requiring `sudo`, provide copy-paste commands and ask the human user to run them in a separate terminal window.
+6. Install only approved missing items.
+7. Choose PDF viewer by environment:
+   - Ubuntu Desktop: install/use `zathura` or `okular`.
+   - WSL Ubuntu: do not install Linux viewer; use Windows SumatraPDF via `wslview`.
+   - Lima guest: do not install Linux viewer; use macOS Skim.
+8. When a GUI installer is required (for example, MacTeX `.pkg` on macOS), open it and ask the human user to complete the installer steps.
+9. Run all `verify` commands and report pass/fail per item.
+10. Continue task execution only after required items are verified.
 
 ## Your Role
 
