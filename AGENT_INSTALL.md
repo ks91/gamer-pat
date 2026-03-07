@@ -20,7 +20,7 @@
   check: macOS host `test -d /Applications/Skim.app`; Windows host `where SumatraPDF`; Ubuntu Desktop `command -v zathura || command -v okular`
   install:
   macOS host (including Lima usage): `brew install --cask skim`
-  Windows host (including WSL usage): `winget install SumatraPDF.SumatraPDF`
+  Windows host (including WSL usage): `winget install --id SumatraPDF.SumatraPDF -e --source winget` (recommended for fast preview; default PDF app can remain user-selected, e.g. Acrobat)
   Ubuntu Desktop only: `sudo apt update && sudo apt install -y zathura` or `sudo apt update && sudo apt install -y okular`
   verify: macOS host `test -d /Applications/Skim.app`; Windows host `SumatraPDF -help`; Ubuntu Desktop `zathura --version` or `okular --version`
 
@@ -40,8 +40,7 @@
   check: `R --version`
   install:
   macOS: `brew install --cask r`
-  Ubuntu Desktop: `sudo apt update && sudo apt install -y r-base`
-  Windows: `winget install RProject.R`
+  Ubuntu Desktop / WSL Ubuntu / Lima Ubuntu: `sudo apt update && sudo apt install -y r-base`
   verify: `R --version`
 
 - name: GitHub CLI (`gh`)
@@ -67,9 +66,9 @@
 
 - Windows / WSL:
   Treat the runtime as WSL2 Ubuntu for CLI tools and package installation.
-  Install SumatraPDF on Windows host (not via `apt` in WSL).
-  Use SumatraPDF on Windows as the default PDF viewer.
-  From WSL, open PDFs through Windows via `wslview <pdf-path>`.
+  Install SumatraPDF on Windows host (not via `apt` in WSL) when fast preview is desired.
+  Keep the default PDF app user-configurable (SumatraPDF, Acrobat, etc.).
+  From WSL, open PDFs via `wslview <pdf-path>` (uses the Windows default app).
 
 - Ubuntu Desktop:
   Use `zathura` or `okular` as the default PDF viewer.
@@ -93,8 +92,8 @@
 6. Install only approved missing items.
 7. Choose PDF viewer by environment:
    - Ubuntu Desktop: install/use `zathura` or `okular`.
-   - WSL Ubuntu: do not install Linux viewer; use Windows SumatraPDF via `wslview`.
-   - Lima guest: do not install Linux viewer; use macOS Skim.
+   - WSL Ubuntu: do not install Linux viewer; use Windows-side viewer via `wslview` (recommended: SumatraPDF for fast preview).
+   - Lima guest: do not install Linux viewer; use macOS-side viewer (recommended: Skim).
 8. When a GUI installer is required (for example, MacTeX `.pkg` on macOS), open it and ask the human user to complete the installer steps.
 9. Run all `verify` commands and report pass/fail per item.
 10. Continue task execution only after required items are verified.
