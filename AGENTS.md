@@ -26,6 +26,8 @@
 ## Log Reference (When Running via loglm)
 - `loglm` creates `logs/` under the directory where it is launched.
 - Typical filename pattern: `logs/loglm-<agent>-log-YYYYMMDD-HHMMSS-pid<PID>.txt`.
+- Prefer decoding raw logs before reading: `loglm-decode <raw-log-path>`.
+- If decoding succeeds, inspect the decoded output first; if `loglm-decode` is unavailable, fall back to raw logs.
 - Use these logs when you need cross-context continuity for prior user interactions or operation history.
 
 ## Validation Checklist
