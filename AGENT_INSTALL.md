@@ -33,6 +33,13 @@
   Windows: `winget install Python.Python.3`
   verify: `python3 --version && python3 -m pip --version`
 
+- name: `wslview` bridge (`wslu`) [WSL only]
+  purpose: Open generated PDFs from WSL in a Windows-side viewer.
+  check: `command -v wslview`
+  install:
+  WSL Ubuntu only: `sudo apt update && sudo apt install -y wslu`
+  verify: `wslview --help`
+
 ## Optional Dependencies
 
 - name: R
@@ -66,6 +73,7 @@
 
 - Windows / WSL:
   Treat the runtime as WSL2 Ubuntu for CLI tools and package installation.
+  Ensure `wslview` is available in WSL (`wslu` package).
   Install SumatraPDF on Windows host (not via `apt` in WSL) when fast preview is desired.
   Keep the default PDF app user-configurable (SumatraPDF, Acrobat, etc.).
   From WSL, open PDFs via `wslview <pdf-path>` (uses the Windows default app).
