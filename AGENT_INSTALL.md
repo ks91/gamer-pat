@@ -79,11 +79,12 @@
 1. Check all items in `Requirements`.
 2. Report missing items with exact check-command failures.
 3. Ask for user consent before any installation command.
-4. Install only approved missing items.
-5. On Windows + WSL environments, run CLI/runtime installs in WSL Ubuntu; install GUI viewers on Windows host as needed.
-6. When a GUI installer is required (for example, MacTeX `.pkg` on macOS), open it and ask the human user to complete the installer steps.
-7. Run all `verify` commands and report pass/fail per item.
-8. Continue task execution only after required items are verified.
+4. For any command requiring `sudo`, provide copy-paste commands and ask the human user to run them in a separate terminal window.
+5. Install only approved missing items.
+6. On Windows + WSL environments, run CLI/runtime installs in WSL Ubuntu; install GUI viewers on Windows host as needed.
+7. When a GUI installer is required (for example, MacTeX `.pkg` on macOS), open it and ask the human user to complete the installer steps.
+8. Run all `verify` commands and report pass/fail per item.
+9. Continue task execution only after required items are verified.
 
 ## Your Role
 
