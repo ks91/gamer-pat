@@ -84,6 +84,10 @@ loglm agent install ks91/gamer-pat
 - claude: `AGENT_INSTALL.md` -> `CLAUDE.md` -> `AGENTS.md`
 - gemini: `AGENT_INSTALL.md` -> `GEMINI.md` -> `AGENTS.md`
 
+Versioning:
+- Prompt-agent package version: `0.1.0`
+- GAMER PAT instruction baseline: `1.0` (field-tested)
+
 Install behavior:
 - `loglm agent install <owner/repo>` stores fetched content into `<REPO-NAME-UPPER>.md` in the current directory.
 - `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` receive managed reference blocks that point to `<REPO-NAME-UPPER>.md`.
