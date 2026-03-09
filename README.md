@@ -104,3 +104,7 @@ While writing the above paper about GAMER PAT together with GAMER PAT, we were d
 
 [Manifesto: Toward Expansive Scaffolding for Humanity's Knowledge Frontier](manifesto/Ai%20Research%20Manifesto.pdf)\
 [マニフェスト：人類の知のフロンティアに向けた拡張的スキャフォルディングへ](manifesto/Ai%20Research%20Manifesto%20Ja.pdf) (Japanese translation of the above)
+
+## License Scope Note
+The CC BY-SA license in this repository applies to the GAMER PAT prompt documents themselves.
+It does not automatically apply to user-created outputs (e.g., papers, reports, essays) unless those outputs include substantial copied or adapted prompt text from this repository.
