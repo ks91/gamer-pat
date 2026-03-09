@@ -23,12 +23,12 @@
 
 - name: PDF viewer
   purpose: Review generated PDFs quickly during writing/revision loops.
-  check: macOS host `test -d /Applications/Skim.app`; Windows host `where SumatraPDF`; Ubuntu Desktop `command -v zathura || command -v okular`
+  check: macOS host `test -d /Applications/Skim.app`; Windows host `where SumatraPDF`; Ubuntu Desktop `command -v okular`
   install:
   macOS host (including Lima usage): `brew install --cask skim`
   Windows host (including WSL usage): `winget install --id SumatraPDF.SumatraPDF -e --source winget` (recommended for fast preview; default PDF app can remain user-selected, e.g. Acrobat)
-  Ubuntu Desktop only: `sudo apt update && sudo apt install -y zathura` or `sudo apt update && sudo apt install -y okular`
-  verify: macOS host `test -d /Applications/Skim.app`; Windows host `SumatraPDF -help`; Ubuntu Desktop `zathura --version` or `okular --version`
+  Ubuntu Desktop only: `sudo apt update && sudo apt install -y okular`
+  verify: macOS host `test -d /Applications/Skim.app`; Windows host `SumatraPDF -help`; Ubuntu Desktop `okular --version`
 
 - name: Python 3
   purpose: Run helper scripts for data processing and reproducible research tasks.
@@ -85,16 +85,17 @@
   From WSL, open PDFs via `wslview <pdf-path>` (uses the Windows default app).
 
 - Ubuntu Desktop:
-  Use `zathura` or `okular` as the default PDF viewer.
-  Open PDF with `zathura <pdf-path>` or `okular <pdf-path>`.
+  Use `okular` as the default PDF viewer.
+  Open PDF with `okular <pdf-path>`.
 
 - Raspberry Pi OS (provisional; not yet tested):
   Use the same Linux-side CLI flow as Ubuntu Desktop.
-  Prefer `zathura` or `okular` for PDF viewing when available.
+  Prefer `okular` for PDF viewing.
+  Install with: `sudo apt update && sudo apt install -y okular`.
 
 - Chrome OS (Linux container / Crostini) (provisional; not yet tested):
   Run CLI/runtime tools inside the Linux container.
-  Prefer opening generated PDFs with the host-side Chrome OS viewer/browser.
+  Prefer `okular` for PDF viewing in the Linux container.
 
 ## Preflight
 
@@ -105,7 +106,7 @@
 5. For any command requiring `sudo`, provide copy-paste commands and ask the human user to run them in a separate terminal window.
 6. Install only approved missing items.
 7. Choose PDF viewer by environment:
-   - Ubuntu Desktop: install/use `zathura` or `okular`.
+   - Ubuntu Desktop: install/use `okular`.
    - WSL Ubuntu: do not install Linux viewer; use Windows-side viewer via `wslview` (recommended: SumatraPDF for fast preview).
    - Lima guest: do not install Linux viewer; use macOS-side viewer (recommended: Skim).
 8. When a GUI installer is required (for example, MacTeX `.pkg` on macOS), open it and ask the human user to complete the installer steps.
