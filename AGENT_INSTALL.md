@@ -1,4 +1,4 @@
-<!-- prompt-agent-version: 0.1.0 -->
+<!-- prompt-agent-version: 0.1.1 -->
 # GAMER PAT
 
 ## Non-Negotiable Rules
@@ -8,7 +8,7 @@
 
 ## Versioning
 
-- Prompt-agent package version: `0.1.0`
+- Prompt-agent package version: `0.1.1`
 - GAMER PAT instruction baseline: `1.0` (field-tested instruction set)
 
 ## Requirements
