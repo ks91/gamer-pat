@@ -88,14 +88,15 @@
   Use `okular` as the default PDF viewer.
   Open PDF with `okular <pdf-path>`.
 
-- Raspberry Pi OS (provisional; not yet tested):
+- Raspberry Pi OS:
   Use the same Linux-side CLI flow as Ubuntu Desktop.
   Prefer `okular` for PDF viewing.
   Install with: `sudo apt update && sudo apt install -y okular`.
 
-- Chrome OS (Linux container / Crostini) (provisional; not yet tested):
+- Chrome OS (Linux container / Crostini):
   Run CLI/runtime tools inside the Linux container.
   Prefer `okular` for PDF viewing in the Linux container.
+  Install with: `sudo apt update && sudo apt install -y okular`.
 
 ## Preflight
 
@@ -107,6 +108,8 @@
 6. Install only approved missing items.
 7. Choose PDF viewer by environment:
    - Ubuntu Desktop: install/use `okular`.
+   - Raspberry Pi OS: install/use `okular`.
+   - Chrome OS (Linux container / Crostini): install/use `okular`.
    - WSL Ubuntu: do not install Linux viewer; use Windows-side viewer via `wslview` (recommended: SumatraPDF for fast preview).
    - Lima guest: do not install Linux viewer; use macOS-side viewer (recommended: Skim).
 8. When a GUI installer is required (for example, MacTeX `.pkg` on macOS), open it and ask the human user to complete the installer steps.
