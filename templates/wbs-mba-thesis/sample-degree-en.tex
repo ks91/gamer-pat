@@ -1,0 +1,56 @@
+\documentclass[degree-en]{wbsmba}
+
+\title{Designing a Practical LaTeX Class for Waseda MBA Theses}
+\subtitle{A teacher-acceptable approximation of the official Word template}
+\author{Hikaru Waseda}
+\studentid{57XXXXXX}
+\zemi{Seminar on Strategic Management}
+\completiondate{AY 2025}
+\chiefexaminer{Prof. Kaoru Okuma}
+\deputyexaminer{Prof. Tsubasa Tsubouchi}
+\seconddeputyexaminer{Prof. Haruka Takata}
+
+\begin{document}
+\maketitle
+
+\begin{abstractpage}
+This sample demonstrates a practical LaTeX workflow for an MBA degree thesis at Waseda Business School.
+Instead of reproducing the Word template exactly, it aims at a clean and review-friendly layout that should
+be acceptable to supervisors and examiners.
+
+The class provides a cover sheet, summary page, table of contents, main chapters, references, and appendix.
+The main objective is reliable authoring rather than pixel-level fidelity.
+\end{abstractpage}
+
+\wbsfrontmatter
+\tableofcontents
+\wbsmainmatter
+
+\chapter{Introduction}
+\section{Background}
+The official template is distributed in Word format, but a maintainable LaTeX workflow is more suitable for
+long-form academic writing with repeated revisions.
+That preference is consistent with established guidance on document preparation and typography
+\cite{bringhurst2013elements,lamport1994latex}.
+
+\section{Purpose}
+This class offers a workable compromise between institutional appearance and standard LaTeX conventions.
+
+\chapter{Class Design}
+\section{Front Matter}
+The cover sheet collects thesis metadata in a compact format inspired by the official template.
+
+\section{Main Text}
+Generous margins and double spacing are used to support annotation and review.
+
+\chapter{Conclusion}
+The result is a usable starting point for actual MBA thesis writing in the CLI environment.
+
+\bibliographystyle{wbsplain}
+\bibliography{sample-degree-en}
+
+\appendix
+\chapter{Supplementary Material}
+Supplementary figures and tables may be placed here.
+
+\end{document}

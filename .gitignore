@@ -1,0 +1,11 @@
+.DS_Store
+.loglm_agent
+logs/
+unadded/
+
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.log
+*.toc

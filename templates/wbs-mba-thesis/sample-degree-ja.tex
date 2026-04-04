@@ -1,0 +1,58 @@
+\documentclass[degree-ja]{wbsmba}
+
+\title{日本のMBA学位論文向けLaTeXスタイルの設計}
+\subtitle{Wordテンプレートを参照した実務的な近似}
+\author{早稲田 光}
+\studentid{57XXXXXX}
+\zemi{経営戦略研究ゼミ}
+\completiondate{2026年3月修了}
+\chiefexaminer{大隈 薫 教授}
+\deputyexaminer{坪内 翼 教授}
+\seconddeputyexaminer{高田 遥 教授}
+
+\begin{document}
+\maketitle
+
+\begin{abstractpage}
+本サンプルは、早稲田大学大学院経営管理研究科の専門職学位論文テンプレートを参照しつつ、
+LaTeXで安定して執筆できる最小構成を示すものである。
+見た目は Word テンプレートにおおむね寄せつつ、章・節番号は算用数字で統一し、
+一般的な LaTeX の運用と教員確認のしやすさを優先した。
+
+このクラスは、表紙、概要、目次、本文、参考文献、付録という論文提出に必要な基本構成を提供する。
+厳密再現ではなく、指導教員が許容しやすい整った体裁を実用上のゴールとしている。
+\end{abstractpage}
+
+\wbsfrontmatter
+\tableofcontents
+\wbsmainmatter
+
+\chapter{はじめに}
+\section{研究の背景}
+日本語版テンプレートでは章と節の表記に揺れがあるが、本クラスでは標準的な算用数字に統一する。
+これにより、目次生成、相互参照、保守性が大きく改善する。
+また、経営戦略論の基本テキストが重視する論理性と体系性という観点から見ても、
+論文フォーマットの一貫性は軽視できない \cite{kawai2012dynamic,otaki2016keieisenryaku}。
+
+\section{研究目的}
+専門職大学院の論文では、内容の明快さだけでなく、執筆と修正の反復に耐える道具立ても重要である。
+そのため、本スタイルでは複雑な装飾よりも、安定した組版と明確なメタデータ入力を重視した。
+
+\chapter{スタイル設計}
+\section{表紙}
+論文種別、修了年月、タイトル、学籍番号、氏名、ゼミ名称、審査教員名を表紙に配置する。
+
+\section{本文}
+本文は A4、十分な余白、読みやすい行送りを基本とし、指導教員がコメントを入れやすい紙面を想定する。
+
+\chapter{結論}
+本クラスは、修士論文相当の日本語論文を LaTeX で実際に執筆するための土台として利用できる。
+
+\bibliographystyle{wbsapalike}
+\bibliography{sample-degree-ja}
+
+\appendix
+\chapter{追加資料}
+ここに調査票、補足表、追加図版などを配置する。
+
+\end{document}

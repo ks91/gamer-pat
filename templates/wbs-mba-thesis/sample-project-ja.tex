@@ -1,0 +1,47 @@
+\documentclass[project-ja]{wbsmba}
+
+\title{プロジェクト研究論文向けLaTeXテンプレートの試作}
+\subtitle{WBS提出様式への実務対応}
+\author{早稲田 光}
+\studentid{57XXXXXX}
+\zemi{事業創造研究ゼミ}
+\completiondate{2026年3月修了}
+\chiefexaminer{大隈 薫 教授}
+\deputyexaminer{坪内 翼 教授}
+
+\begin{document}
+\maketitle
+
+\begin{abstractpage}
+本サンプルは、プロジェクト研究論文の提出体裁を LaTeX で扱えるようにするための試作である。
+専門職学位論文と多くの要素を共有しつつ、審査教員表記などの差分を吸収できるよう設計した。
+\end{abstractpage}
+
+\wbsfrontmatter
+\tableofcontents
+\wbsmainmatter
+
+\chapter{はじめに}
+\section{問題設定}
+プロジェクト研究論文では、実務上の課題を具体的に定義し、分析枠組みと提案の整合性を示すことが重要である。
+その際、戦略論の入門書や体系書が示す基本的な論点整理は、問題設定の粒度を整えるうえで有用である
+\cite{asaba2010tsukamu,ishii1996strategy}。
+
+\chapter{分析}
+\section{現状把握}
+既存テンプレートの外形を踏まえつつ、LaTeX の標準機能で継続利用しやすい構成を採用する。
+
+\section{提案}
+見た目の厳密一致よりも、教員が確認しやすい体裁と、執筆時の再現性を優先する。
+
+\chapter{結論}
+このクラスは、WBS の日本語プロジェクト研究論文にもそのまま流用できる。
+
+\bibliographystyle{wbsapalike}
+\bibliography{sample-project-ja}
+
+\appendix
+\chapter{補足資料}
+追加の表や質問票を付録として置く。
+
+\end{document}
