@@ -85,7 +85,7 @@ loglm agent install ks91/gamer-pat
 - gemini: `AGENT_INSTALL.md` -> `GEMINI.md` -> `AGENTS.md`
 
 Versioning:
-- Prompt-agent package version: `0.1.1`
+- Prompt-agent package version: `0.1.2`
 - GAMER PAT instruction baseline: `1.0` (field-tested)
 
 Install behavior:
