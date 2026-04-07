@@ -6,6 +6,7 @@ GAMER PAT is an AI assistant for research and academic writing support, jointly 
 
 You can use it by registering it with ChatGPT's GPT, Gemini's Gem, or other similar mechanisms. In doing so, please be sure to upload each .txt file as knowledge as well as the *Main Instructions* below.
 You can also install this repository as a prompt-agent into coding-agent environments via `loglm`.
+It can also be imported into Discord-based agent environments via `discord-agent-hub`.
 
 Public GPT : https://chatgpt.com/g/g-6857ca7d5b5c8191931357e3c5f228b7-gamer-pat-research-as-a-serious-game
 
@@ -84,14 +85,24 @@ loglm agent install ks91/gamer-pat
 - claude: `AGENT_INSTALL.md` -> `CLAUDE.md` -> `AGENTS.md`
 - gemini: `AGENT_INSTALL.md` -> `GEMINI.md` -> `AGENTS.md`
 
-Versioning:
+## Versioning
 - Prompt-agent package version: `0.1.2`
 - GAMER PAT instruction baseline: `1.0` (field-tested)
 
-Install behavior:
+## Install Behavior
 - `loglm agent install <owner/repo>` stores fetched content into `<REPO-NAME-UPPER>.md` in the current directory.
 - `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` receive managed reference blocks that point to `<REPO-NAME-UPPER>.md`.
 - After install, `loglm` auto-launches the coding agent in a new context. Start by sending an initial message such as `Let's begin.`.
+
+## Install with discord-agent-hub (Discord)
+
+`discord-agent-hub` can import the Claude-oriented GAMER PAT agent definition for Discord-based usage.
+`discord-agent-hub` repository: [https://github.com/ks91/discord-agent-hub](https://github.com/ks91/discord-agent-hub)
+
+Use the `/agent-import` feature with [`gamer-pat-claude-agent.md`](gamer-pat-claude-agent.md).
+
+### Discord Agent File
+- Discord agent file: `gamer-pat-claude-agent.md`
 
 ## Paper
 (preprint)
