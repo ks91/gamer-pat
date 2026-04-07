@@ -104,11 +104,14 @@ Use the `/agent-import` feature with [`gamer-pat-claude-agent.md`](gamer-pat-cla
 ### Discord Agent File
 - Discord agent file: `gamer-pat-claude-agent.md`
 
-## Paper
+## Papers
 (preprint)
 - Kenji Saito and Rei Tadika, "GAMER PAT: Research as a Serious Game", September 16, 2025. arXiv:2510.21719. Available at: https://arxiv.org/abs/2510.21719
 - Kenji Saito and Rei Tadika, "GAMER PAT: Research as a Serious Game", October 02, 2025. Available at SSRN: https://doi.org/10.2139/ssrn.5555818
-(these are mostly identical)
+
+The above two are mostly identical.
+
+- Kenji Saito, Rei Tajika, Satoru Shibuya, Hiroshi Kanno, "Generative AI Use in Professional Graduate Thesis Writing: Adoption, Perceived Outcomes, and the Role of a Research-Specialized Agent", April 3, 2026. arXiv:2604.02792. Available at: https://arxiv.org/abs/2604.02792
 
 ## Manifesto
 While writing the above paper about GAMER PAT together with GAMER PAT, we were discussing how AI does not fade out as scaffolding but instead fades forward, and PAT proposed, “Shall I write a manifesto?” The following is the manifesto it wrote (as is).
