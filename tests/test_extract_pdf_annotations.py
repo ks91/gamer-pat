@@ -128,3 +128,29 @@ class BuildAnnotationsRegressionTests(TestCase):
         self.assertEqual(annots[0].target, "早稲田大学、経営学研究科")
         self.assertEqual(annots[0].context, "早稲田大学、経営学研究科")
         self.assertEqual(annots[0].comment, "日本語コメント")
+
+    def test_extracts_text_annotation_near_figure(self):
+        fake_pdf = (
+            b"1 0 obj\n<< /Type /Page >>\nendobj\n"
+            b"2 0 obj\n<< /Subtype/Text /P 1 0 R "
+            b"/Rect [60 64 84 88] "
+            b"/Contents(figure note) >>\nendobj\n"
+        )
+
+        lines = [
+            MODULE.Line(text="write before discussion", x_min=15.0, y_min=35.0, x_max=120.0, y_max=47.0),
+            MODULE.Line(text="persistent visual record", x_min=15.0, y_min=50.0, x_max=130.0, y_max=62.0),
+        ]
+
+        with mock.patch.object(Path, "read_bytes", return_value=fake_pdf):
+            with mock.patch.object(
+                MODULE,
+                "load_pages_from_bbox",
+                return_value=({1: []}, {1: lines}, {1: 120.0}),
+            ):
+                annots = MODULE.build_annotations(Path("commented.pdf"), Path("clean.pdf"))
+
+        self.assertEqual(len(annots), 1)
+        self.assertEqual(annots[0].target, "write before discussion")
+        self.assertIn("write before discussion", annots[0].context)
+        self.assertEqual(annots[0].comment, "figure note")

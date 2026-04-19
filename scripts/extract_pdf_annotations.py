@@ -23,6 +23,8 @@ OBJ_RE = re.compile(rb"(\d+)\s+0\s+obj(.*?)endobj", re.S)
 PAGE_RE = re.compile(rb"/Type(?:\s*|)/Page\b")
 PARENT_RE = re.compile(r"/P\s+(\d+)\s+0\s+R")
 QUAD_RE = re.compile(r"/QuadPoints\s*\[([^\]]+)\]", re.S)
+RECT_RE = re.compile(r"/Rect\s*\[([^\]]+)\]", re.S)
+SUBTYPE_RE = re.compile(r"/Subtype\s*/([A-Za-z]+)")
 ASCII_WORD_RE = re.compile(r"[A-Za-z0-9]")
 CJK_RE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
 
@@ -300,6 +302,20 @@ def lines_near_rect(lines: list[Line], rect: tuple[float, float, float, float]) 
     return hits
 
 
+def nearest_lines(lines: list[Line], rect: tuple[float, float, float, float], limit: int = 3) -> list[Line]:
+    x0, y0, x1, y1 = rect
+    rcx = (x0 + x1) / 2
+    rcy = (y0 + y1) / 2
+    ranked = []
+    for line in lines:
+        lcx = (line.x_min + line.x_max) / 2
+        lcy = (line.y_min + line.y_max) / 2
+        dist = ((lcx - rcx) ** 2 + (lcy - rcy) ** 2) ** 0.5
+        ranked.append((dist, line.y_min, line.x_min, line))
+    ranked.sort(key=lambda row: row[:3])
+    return [row[3] for row in ranked[:limit]]
+
+
 def normalize_quads(raw: str, page_height: float) -> list[tuple[float, float, float, float]]:
     nums = [float(x) for x in raw.split()]
     rects = []
@@ -311,6 +327,13 @@ def normalize_quads(raw: str, page_height: float) -> list[tuple[float, float, fl
         ys = [chunk[1], chunk[3], chunk[4 + 1], chunk[6 + 1]]
         rects.append((min(xs), page_height - max(ys), max(xs), page_height - min(ys)))
     return rects
+
+
+def normalize_rect(raw: str, page_height: float) -> tuple[float, float, float, float] | None:
+    nums = [float(x) for x in raw.split()]
+    if len(nums) < 4:
+        return None
+    return (nums[0], page_height - nums[3], nums[2], page_height - nums[1])
 
 
 def build_annotations(pdf_path: Path, text_pdf_path: Path | None = None) -> list[Annotation]:
@@ -327,11 +350,14 @@ def build_annotations(pdf_path: Path, text_pdf_path: Path | None = None) -> list
     for match in re.finditer(r"(\d+)\s+0\s+obj(.*?)endobj", raw_text, re.S):
         obj_num = int(match.group(1))
         obj_text = match.group(2)
-        if "/Subtype/Highlight" not in obj_text:
+        subtype_match = SUBTYPE_RE.search(obj_text)
+        subtype = subtype_match.group(1) if subtype_match else ""
+        if subtype not in {"Highlight", "Text"}:
             continue
         parent = PARENT_RE.search(obj_text)
         quads = QUAD_RE.search(obj_text)
-        if not parent or not quads:
+        rect_match = RECT_RE.search(obj_text)
+        if not parent:
             continue
         page_ref = int(parent.group(1))
         page_num = page_map.get(page_ref)
@@ -339,7 +365,15 @@ def build_annotations(pdf_path: Path, text_pdf_path: Path | None = None) -> list
             continue
         comment_raw = extract_field(obj_text, "RC") or extract_field(obj_text, "Contents") or ""
         comment = clean_comment(comment_raw)
-        rects = normalize_quads(quads.group(1), page_heights[page_num])
+        if quads:
+            rects = normalize_quads(quads.group(1), page_heights[page_num])
+        elif rect_match:
+            rect = normalize_rect(rect_match.group(1), page_heights[page_num])
+            rects = [rect] if rect else []
+        else:
+            rects = []
+        if not rects:
+            continue
         words = page_words.get(page_num, [])
         lines = page_lines.get(page_num, [])
 
@@ -350,8 +384,15 @@ def build_annotations(pdf_path: Path, text_pdf_path: Path | None = None) -> list
             hit_lines.extend(lines_near_rect(lines, rect))
         unique_words = {(w.x_min, w.y_min, w.text): w for w in hit_words}
         unique_lines = {(l.x_min, l.y_min, l.text): l for l in hit_lines}
+        if not unique_lines and subtype == "Text":
+            fallback_lines = []
+            for rect in rects:
+                fallback_lines.extend(nearest_lines(lines, rect))
+            unique_lines = {(l.x_min, l.y_min, l.text): l for l in fallback_lines}
         sorted_lines = sorted(unique_lines.values(), key=lambda l: (l.y_min, l.x_min))
         target = join_words_with_layout(list(unique_words.values()))
+        if not target and sorted_lines and subtype == "Text":
+            target = sorted_lines[0].text
         context = " / ".join(l.text for l in sorted_lines[:3]).strip()
         sort_y = min((r[1] for r in rects), default=0.0)
         annots.append(
