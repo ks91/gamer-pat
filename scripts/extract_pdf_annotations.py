@@ -23,6 +23,8 @@ OBJ_RE = re.compile(rb"(\d+)\s+0\s+obj(.*?)endobj", re.S)
 PAGE_RE = re.compile(rb"/Type(?:\s*|)/Page\b")
 PARENT_RE = re.compile(r"/P\s+(\d+)\s+0\s+R")
 QUAD_RE = re.compile(r"/QuadPoints\s*\[([^\]]+)\]", re.S)
+ASCII_WORD_RE = re.compile(r"[A-Za-z0-9]")
+CJK_RE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
 
 
 @dataclass
@@ -53,6 +55,33 @@ class Annotation:
     target: str
     context: str
     sort_y: float
+
+
+def needs_space_between(left: str, right: str, gap: float) -> bool:
+    if gap <= 0.5:
+        return False
+    if not left or not right:
+        return False
+    if CJK_RE.search(left) or CJK_RE.search(right):
+        return False
+    if left.endswith(("-", "/", "(")) or right.startswith(("-", "/", ")", ".", ",", ";", ":", "!", "?")):
+        return False
+    return bool(ASCII_WORD_RE.search(left) and ASCII_WORD_RE.search(right))
+
+
+def join_words_with_layout(words: list[Word]) -> str:
+    if not words:
+        return ""
+    sorted_words = sorted(words, key=lambda w: (round(w.y_min, 1), w.x_min))
+    parts = [sorted_words[0].text]
+    prev = sorted_words[0]
+    for word in sorted_words[1:]:
+        gap = word.x_min - prev.x_max
+        if needs_space_between(prev.text, word.text, gap):
+            parts.append(" ")
+        parts.append(word.text)
+        prev = word
+    return "".join(parts).strip()
 
 
 def parse_pdf_literal(text: str, start_idx: int) -> tuple[str, int]:
@@ -181,8 +210,14 @@ def load_all_objects(pdf_bytes: bytes) -> dict[int, bytes]:
 
 def clean_comment(raw: str) -> str:
     text = raw
+    try:
+        repaired = raw.encode("latin1").decode("utf-8")
+    except UnicodeError:
+        repaired = None
+    if repaired:
+        text = repaired
     if raw.lstrip().startswith("<?xml"):
-        text = re.sub(r"<[^>]+>", "", raw)
+        text = re.sub(r"<[^>]+>", "", text)
     text = html.unescape(text)
     text = text.replace("\r", "\n")
     lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines()]
@@ -229,7 +264,7 @@ def load_pages_from_bbox(pdf_path: Path) -> tuple[dict[int, list[Word]], dict[in
             if line_words:
                 lines.append(
                     Line(
-                        text="".join(w.text for w in sorted(line_words, key=lambda x: x.x_min)),
+                        text=join_words_with_layout(line_words),
                         x_min=min(w.x_min for w in line_words),
                         y_min=min(w.y_min for w in line_words),
                         x_max=max(w.x_max for w in line_words),
@@ -315,9 +350,8 @@ def build_annotations(pdf_path: Path, text_pdf_path: Path | None = None) -> list
             hit_lines.extend(lines_near_rect(lines, rect))
         unique_words = {(w.x_min, w.y_min, w.text): w for w in hit_words}
         unique_lines = {(l.x_min, l.y_min, l.text): l for l in hit_lines}
-        sorted_words = sorted(unique_words.values(), key=lambda w: (round(w.y_min, 1), w.x_min))
         sorted_lines = sorted(unique_lines.values(), key=lambda l: (l.y_min, l.x_min))
-        target = "".join(w.text for w in sorted_words).strip()
+        target = join_words_with_layout(list(unique_words.values()))
         context = " / ".join(l.text for l in sorted_lines[:3]).strip()
         sort_y = min((r[1] for r in rects), default=0.0)
         annots.append(

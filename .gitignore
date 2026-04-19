@@ -9,3 +9,6 @@ unadded/
 *.dvi
 *.log
 *.toc
+
+__pycache__/
+*.pyc

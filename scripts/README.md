@@ -27,6 +27,12 @@ The script uses only the Python standard library plus `pdftotext -bbox-layout`.
 python3 extract_pdf_annotations.py commented.pdf --text-pdf clean.pdf --format markdown > comments.md
 ```
 
+### Regression Test
+
+```sh
+python3 -m unittest tests.test_extract_pdf_annotations
+```
+
 ### Notes
 
 - `--text-pdf clean.pdf` should point to the clean PDF that was originally shared with the advisor or reviewer before annotations were added.
