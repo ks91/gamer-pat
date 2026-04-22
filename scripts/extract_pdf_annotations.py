@@ -21,6 +21,10 @@ from pathlib import Path
 
 OBJ_RE = re.compile(rb"(\d+)\s+0\s+obj(.*?)endobj", re.S)
 PAGE_RE = re.compile(rb"/Type(?:\s*|)/Page\b")
+PAGES_RE = re.compile(rb"/Type(?:\s*|)/Pages\b")
+CATALOG_PAGES_RE = re.compile(rb"/Pages\s+(\d+)\s+0\s+R")
+KIDS_RE = re.compile(rb"/Kids\s*\[([^\]]+)\]", re.S)
+REF_RE = re.compile(rb"(\d+)\s+0\s+R")
 PARENT_RE = re.compile(r"/P\s+(\d+)\s+0\s+R")
 QUAD_RE = re.compile(r"/QuadPoints\s*\[([^\]]+)\]", re.S)
 RECT_RE = re.compile(r"/Rect\s*\[([^\]]+)\]", re.S)
@@ -210,6 +214,42 @@ def load_all_objects(pdf_bytes: bytes) -> dict[int, bytes]:
     return objects
 
 
+def collect_page_order(objects: dict[int, bytes]) -> list[int]:
+    pages_root = None
+    for body in objects.values():
+        if b"/Type/Catalog" in body or b"/Type /Catalog" in body:
+            match = CATALOG_PAGES_RE.search(body)
+            if match:
+                pages_root = int(match.group(1))
+                break
+
+    seen: set[int] = set()
+
+    def walk(obj_num: int) -> list[int]:
+        if obj_num in seen:
+            return []
+        seen.add(obj_num)
+        body = objects.get(obj_num, b"")
+        if PAGE_RE.search(body):
+            return [obj_num]
+        if not PAGES_RE.search(body):
+            return []
+        kids_match = KIDS_RE.search(body)
+        if not kids_match:
+            return []
+        pages: list[int] = []
+        for ref in REF_RE.finditer(kids_match.group(1)):
+            pages.extend(walk(int(ref.group(1))))
+        return pages
+
+    if pages_root is not None:
+        page_order = walk(pages_root)
+        if page_order:
+            return page_order
+
+    return sorted(obj_num for obj_num, body in objects.items() if PAGE_RE.search(body))
+
+
 def clean_comment(raw: str) -> str:
     text = raw
     try:
@@ -338,18 +378,16 @@ def normalize_rect(raw: str, page_height: float) -> tuple[float, float, float, f
 
 def build_annotations(pdf_path: Path, text_pdf_path: Path | None = None) -> list[Annotation]:
     raw_bytes = pdf_path.read_bytes()
-    raw_text = raw_bytes.decode("latin1", errors="ignore")
     objects = load_all_objects(raw_bytes)
-    page_order = sorted(obj_num for obj_num, body in objects.items() if PAGE_RE.search(body))
+    page_order = collect_page_order(objects)
     page_map = {obj_num: idx + 1 for idx, obj_num in enumerate(page_order)}
 
     source_pdf = text_pdf_path or pdf_path
     page_words, page_lines, page_heights = load_pages_from_bbox(source_pdf)
 
     annots: list[Annotation] = []
-    for match in re.finditer(r"(\d+)\s+0\s+obj(.*?)endobj", raw_text, re.S):
-        obj_num = int(match.group(1))
-        obj_text = match.group(2)
+    for obj_num, obj_body in sorted(objects.items()):
+        obj_text = obj_body.decode("latin1", errors="ignore")
         subtype_match = SUBTYPE_RE.search(obj_text)
         subtype = subtype_match.group(1) if subtype_match else ""
         if subtype not in {"Highlight", "Text"}:

@@ -154,3 +154,74 @@ class BuildAnnotationsRegressionTests(TestCase):
         self.assertEqual(annots[0].target, "write before discussion")
         self.assertIn("write before discussion", annots[0].context)
         self.assertEqual(annots[0].comment, "figure note")
+
+    def test_uses_pdf_page_tree_order_not_object_number_order(self):
+        fake_pdf = (
+            b"10 0 obj\n<< /Type/Catalog /Pages 20 0 R >>\nendobj\n"
+            b"20 0 obj\n<< /Type/Pages /Kids[3 0 R 1 0 R] /Count 2 >>\nendobj\n"
+            b"1 0 obj\n<< /Type /Page >>\nendobj\n"
+            b"3 0 obj\n<< /Type /Page >>\nendobj\n"
+            b"4 0 obj\n<< /Subtype/Highlight /P 1 0 R "
+            b"/QuadPoints [0 90 55 90 0 80 55 80] "
+            b"/Contents(second page comment) >>\nendobj\n"
+        )
+
+        page1_words = [make_word("Wrong", 0.0, 35.0)]
+        page2_words = [
+            make_word("Right", 0.0, 24.0),
+            make_word("Page", 27.0, 55.0),
+        ]
+        page1_lines = [
+            MODULE.Line(text="Wrong", x_min=0.0, y_min=0.0, x_max=35.0, y_max=20.0)
+        ]
+        page2_lines = [
+            MODULE.Line(text="Right Page", x_min=0.0, y_min=0.0, x_max=55.0, y_max=20.0)
+        ]
+
+        with mock.patch.object(Path, "read_bytes", return_value=fake_pdf):
+            with mock.patch.object(
+                MODULE,
+                "load_pages_from_bbox",
+                return_value=(
+                    {1: page1_words, 2: page2_words},
+                    {1: page1_lines, 2: page2_lines},
+                    {1: 100.0, 2: 100.0},
+                ),
+            ):
+                annots = MODULE.build_annotations(Path("commented.pdf"), Path("clean.pdf"))
+
+        self.assertEqual(len(annots), 1)
+        self.assertEqual(annots[0].page_num, 2)
+        self.assertEqual(annots[0].target, "Right Page")
+
+    def test_extracts_annotation_from_loaded_objects_not_only_raw_direct_objects(self):
+        objects = {
+            10: b"<< /Type/Catalog /Pages 20 0 R >>",
+            20: b"<< /Type/Pages /Kids[1 0 R] /Count 1 >>",
+            1: b"<< /Type /Page >>",
+            30: (
+                b"<< /Subtype/Highlight /P 1 0 R "
+                b"/QuadPoints [0 90 55 90 0 80 55 80] "
+                b"/Contents(embedded comment) >>"
+            ),
+        }
+        words = [
+            make_word("Object", 0.0, 28.0),
+            make_word("Stream", 31.0, 55.0),
+        ]
+        lines = [
+            MODULE.Line(text="Object Stream", x_min=0.0, y_min=0.0, x_max=55.0, y_max=20.0)
+        ]
+
+        with mock.patch.object(Path, "read_bytes", return_value=b"%PDF fake"):
+            with mock.patch.object(MODULE, "load_all_objects", return_value=objects):
+                with mock.patch.object(
+                    MODULE,
+                    "load_pages_from_bbox",
+                    return_value=({1: words}, {1: lines}, {1: 100.0}),
+                ):
+                    annots = MODULE.build_annotations(Path("commented.pdf"), Path("clean.pdf"))
+
+        self.assertEqual(len(annots), 1)
+        self.assertEqual(annots[0].target, "Object Stream")
+        self.assertEqual(annots[0].comment, "embedded comment")
