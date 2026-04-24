@@ -31,6 +31,9 @@ RECT_RE = re.compile(r"/Rect\s*\[([^\]]+)\]", re.S)
 SUBTYPE_RE = re.compile(r"/Subtype\s*/([A-Za-z]+)")
 ASCII_WORD_RE = re.compile(r"[A-Za-z0-9]")
 CJK_RE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+INVALID_XML_CHARS_RE = re.compile(
+    "[\x00-\x08\x0b\x0c\x0e-\x1f\ufffe\uffff]"
+)
 
 
 @dataclass
@@ -267,6 +270,11 @@ def clean_comment(raw: str) -> str:
     return "\n".join(lines).strip()
 
 
+def parse_bbox_xhtml(xhtml_bytes: bytes) -> ET.Element:
+    sanitized = INVALID_XML_CHARS_RE.sub("", xhtml_bytes.decode("utf-8", errors="replace"))
+    return ET.fromstring(sanitized)
+
+
 def load_pages_from_bbox(pdf_path: Path) -> tuple[dict[int, list[Word]], dict[int, list[Line]], dict[int, float]]:
     with tempfile.NamedTemporaryFile(suffix=".xhtml") as tmp:
         subprocess.run(
@@ -275,8 +283,7 @@ def load_pages_from_bbox(pdf_path: Path) -> tuple[dict[int, list[Word]], dict[in
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL,
         )
-        tree = ET.parse(tmp.name)
-    root = tree.getroot()
+        root = parse_bbox_xhtml(Path(tmp.name).read_bytes())
     pages_words: dict[int, list[Word]] = {}
     pages_lines: dict[int, list[Line]] = {}
     page_heights: dict[int, float] = {}

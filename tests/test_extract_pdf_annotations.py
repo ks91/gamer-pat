@@ -56,6 +56,22 @@ class JoinWordsWithLayoutTests(TestCase):
         self.assertEqual(MODULE.join_words_with_layout(words), "AIとMBA")
 
 
+class ParseBBoxXhtmlTests(TestCase):
+    def test_strips_invalid_xml_control_characters(self):
+        xhtml = (
+            b'<?xml version="1.0" encoding="UTF-8"?>\n'
+            b"<doc><page width=\"612\" height=\"792\">"
+            b"<flow><block>"
+            b"<line xMin=\"0\" yMin=\"0\" xMax=\"20\" yMax=\"10\">"
+            b"<word xMin=\"0\" yMin=\"0\" xMax=\"20\" yMax=\"10\">\x034</word>"
+            b"</line></block></flow></page></doc>"
+        )
+
+        root = MODULE.parse_bbox_xhtml(xhtml)
+        word = next(elem for elem in root.iter() if elem.tag == "word")
+        self.assertEqual("".join(word.itertext()), "4")
+
+
 class BuildAnnotationsRegressionTests(TestCase):
     def test_preserves_spaces_in_target_and_context(self):
         fake_pdf = (
