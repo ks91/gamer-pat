@@ -160,7 +160,7 @@ This is equivalent to article, so the highest-level structural unit is \section{
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage[dvipdfmx]{graphicx}
-\usepackage{here}
+\usepackage{float}
 
 * The following is the logical structure for the output:
 
