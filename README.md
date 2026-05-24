@@ -86,8 +86,8 @@ loglm agent install ks91/gamer-pat
 - gemini: `AGENT_INSTALL.md` -> `GEMINI.md` -> `AGENTS.md`
 
 ## Versioning
-- Prompt-agent package version: `0.1.4`
-- GAMER PAT instruction baseline: `1.0` (field-tested)
+- Prompt-agent package version: `0.1.5`
+- GAMER PAT instruction baseline: `1.1` (field-tested)
 
 ## Install Behavior
 - `loglm agent install <owner/repo>` stores fetched content into `<REPO-NAME-UPPER>.md` in the current directory.
